@@ -31,6 +31,7 @@
 
                 margin-left: auto;
                 margin-right: auto;
+                padding-left: 1em;
             }
             header{
             padding: 1em;
@@ -52,7 +53,7 @@
         
             .date { color: 1 }
             .name { font-weight: bold }
-            .org { color: #999; margin-bottom: 1em; }
+            .org { color: #999; margin-bottom: 1em; margin-top: .5em; }
             .more-info {
                 margin-top: .5em;
             }
@@ -122,11 +123,13 @@
             
             .arrow {
                 font-size: 80%;
-                color: #999;
-                padding: 0 .2em;
+                color: #ccc;
+                text-align: right;
                 position: absolute;
-                top: 1em;
+                bottom: 1em;
+                padding: 0 .2em;
                 right: 0;
+                margin-top: -1em;
                 
             }
 
@@ -169,12 +172,44 @@
             var nextElement = sender.nextSibling;
             if ( nextElement.style.display == 'block' ) {
                 nextElement.style.display = 'none';
-                sender.innerHTML = '+';
+                sender.innerHTML = 'more ▼';
             } else {
                 nextElement.style.display = 'block';
-                sender.innerHTML = '−';
+                sender.innerHTML = 'less ▲';
                 }
         }
+    
+    function setParam(name, value) {
+        var l = window.location;
+
+        /* build params */
+        var params = {};        
+        var x = /(?:\??)([^=&?]+)=?([^&?]*)/g;        
+        var s = l.search;
+        for(var r = x.exec(s); r; r = x.exec(s))
+        {
+            r[1] = decodeURIComponent(r[1]);
+            if (!r[2]) r[2] = '%%';
+            params[r[1]] = r[2];
+        }
+
+        /* set param */
+        params[name] = encodeURIComponent(value);
+
+        /* build search */
+        var search = [];
+        for(var i in params)
+        {
+            var p = encodeURIComponent(i);
+            var v = params[i];
+            if (v != '%%') p += '=' + v;
+            search.push(p);
+        }
+        search = search.join('&');
+
+        /* execute search */
+        l.search = search;
+    }
     
 
     
@@ -183,14 +218,25 @@
       var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1XVO1smiI3iOoLJt1nPkmnxqWb2Zi4okiDTtghdBfUcQ/pubhtml';
 
       function init() {
-        // because we're using orderby: 'name' it will sort by the 'name' column
-        // and reverse: true will reverse that sort, so it should be in reverse
-        // alphabetical order
+      
+        var orderby = getQueryVariable('orderby');
+        if (! orderby) {
+            orderby = 'Name';
+        }
+        
+        var reverse = getQueryVariable('reverse');
+        if (! reverse) {
+            reverse = false;
+        } else {
+            reverse = true;
+        }
+
+      
         Tabletop.init( { key: public_spreadsheet_url,
                          callback: showInfo,
                          simpleSheet: true,
-                         orderby: 'Name',
-                         reverse: false } );
+                         orderby: orderby,
+                         reverse: reverse } );
       }
 
 
@@ -209,7 +255,7 @@
         
 
         
-        var results = '<table><tr><th id="categories-header">Categories</th><th id="name-header">Name</th><th id="date-header">Date</th><th id="location-header">Location</th>';
+        var results = '<table><tr><th id="categories-header">Categories</th><th id="name-header"><a href="javascript:setParam(\'orderby\', \'Name\');">Name</a></th><th id="date-header"><a href="javascript:setParam(\'orderby\', \'Date\');">Date</th><th id="location-header"><a href="javascript:setParam(\'orderby\', \'Location\');">Location</a></th>';
         
         var allCategories = [];
         
@@ -257,7 +303,7 @@
             results += '<td><span class="name">' + name + '</span>';
             results += '<div class="accordion">';
             results += '<div class="org">' + org + '</div>';
-            results += '<div class="arrow" onClick="toggle(this);">+</div>'
+            results += '<div class="arrow" onClick="toggle(this);">more ▼</div>'
             results += '<div class="description">' + data[i].Description + '</div>';
             results += '</div></td>';
             results += '<td class="date">' + data[i].Date + '</td>';
