@@ -80,11 +80,23 @@
 
 
     </head>
+    
+    
+    
+    
+    
+    
+    
   <body>
 
     <h1><a href="index.html">Professional Development Opportunities, 2017-2018</a></h1>
     <h2 id="subtitle"></h2>
+    
+    <p id="categories"></p>
+    
     <p id="returns"></p>
+    
+    
 
     <script type="text/javascript" src="tabletop-master/src/tabletop.js"></script>
     
@@ -130,7 +142,7 @@
         Tabletop.init( { key: public_spreadsheet_url,
                          callback: showInfo,
                          simpleSheet: true,
-                         orderby: 'Date',
+                         orderby: 'Name',
                          reverse: false } );
       }
 
