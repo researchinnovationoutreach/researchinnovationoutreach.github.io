@@ -65,6 +65,22 @@
             .description {
                 display: none;
             }
+            
+            #categories {
+            column-count: 3;
+            list-style-type: none;
+            padding: 0;
+            margin-left: 1em;
+            }
+            
+            #categories li {
+                padding: 0;
+                margin: 0;
+            }
+            
+            #categories a {
+                color: #999;
+            }
 
         </style>
     
@@ -90,9 +106,13 @@
   <body>
 
     <h1><a href="index.html">Professional Development Opportunities, 2017-2018</a></h1>
+
+
+    <ul id="categories"></ul>
+
+
     <h2 id="subtitle"></h2>
     
-    <p id="categories"></p>
     
     <p id="returns"></p>
     
@@ -154,7 +174,7 @@
         var categoryQuery = getQueryVariable('category');
         
         if (categoryQuery) {
-            categoryQuery = categoryQuery.replace('_', ' ')
+            categoryQuery = decodeURIComponent(categoryQuery);
             document.getElementById("subtitle").innerHTML = categoryQuery;
         } else {
             document.getElementById("subtitle").innerHTML = 'All Entries';
@@ -164,7 +184,7 @@
         
         var results = "<table><tr><th>Name</th><th>Date</th><th>Categories</th>";
         
-        
+        var allCategories = [];
         
         
         for (i = 0; i < data.length; i++) {
@@ -195,8 +215,11 @@
             var categories = ' ';
             for (ci = 0; ci < categoryList.length; ci++) {
                 if (categoryList[ci]) {
-                    categories += '<a href="?category=' + categoryList[ci].replace(' ', '_') + '" class="category">' + categoryList[ci] + '</a> ';
+                    categories += '<a href="?category=' + encodeURIComponent(categoryList[ci]) + '" class="category">' + categoryList[ci] + '</a> ';
                     }
+                if ( categoryList[ci] && allCategories.indexOf(categoryList[ci]) == -1 ) {
+                    allCategories.push(categoryList[ci]);
+                }
             }
         
        
@@ -212,6 +235,17 @@
         }    
         results += '</table>';
         document.getElementById("returns").innerHTML = results;
+        
+        
+        allCategories.sort()
+        var categoryRes = '';
+        for (i = 0; i < allCategories.length; i++) {
+            categoryRes += '<li><a href="' + encodeURIComponent(allCategories[i]) + '">' + allCategories[i] + '</a></li>';
+        }
+        
+        document.getElementById("categories").innerHTML = categoryRes;
+        
+        
       }
 
       /*document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");        */
