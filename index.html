@@ -17,7 +17,6 @@
 			h1 {
 				font-size: 1.25em;
 				font-weight: bold;
-				margin: .75em;
 				padding-bottom: 1em;
 				margin-top: 3em;
 			}
@@ -48,7 +47,7 @@
 			
 			h2 {
 				font-size: 1em;
-				margin: 2em 1em 1em 1em;
+				margin: 2em 0 1em 0;
 				text-transform: uppercase;
 				letter-spacing: .05em;
 				font-weight: bold;
@@ -71,11 +70,13 @@
 				margin-top: .5em;
 			}
 
+            table {
+				border-collapse: collapse;
+            }
 			td, th {
 				vertical-align: top;
-				padding: 1em;
+				padding: 1em 2em 1em 0;
 				margin: 0;
-				border-collapse: collapse;
 				border-bottom: #ccc 1px solid;
 				position: relative;
 			}
@@ -123,7 +124,6 @@
 			
 			.meta {
 				padding: 2em;
-				margin: 1em;
 				background: #efefef;
 			}
 			
@@ -155,6 +155,10 @@
 			
 			#searchterm {
 			    margin-top: 1em;
+			}
+			
+			footer {
+			    margin-top: 2em;
 			}
 
 		</style>
@@ -428,7 +432,13 @@
             <p id="returns"></p>
         </main>
         <footer>
-        </footer>
+            <div class="container">
+        
+                <p>Please send inquiries, suggestions, and submissions to <a href="https://deerfield.edu/directory/staff/erichardson/">Emily Richardson</a>.</p>
+                
+            </div>
+        
+            </footer>
     
     
         <script>
