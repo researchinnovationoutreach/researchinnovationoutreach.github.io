@@ -1,1 +1,0 @@
-python local.py 1XVO1smiI3iOoLJt1nPkmnxqWb2Zi4okiDTtghdBfUcQ

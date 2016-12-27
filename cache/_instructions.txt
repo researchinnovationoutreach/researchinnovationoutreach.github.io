@@ -1,0 +1,4 @@
+Open up Terminal
+Run the following: 
+
+python /path/to/refreshCache.py

@@ -62,6 +62,7 @@
 			    line-height: 1em;
 			    letter-spacing: 0;
 			    margin-left: .25em;
+			    vertical-align: middle;
 			    
 			}
 		
@@ -187,10 +188,11 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         -->
   
-        <!-- tabletop converts a google sheet to javascript data -->
+        <!-- tabletop converts a google sheet to javascript data 
     	<script type="text/javascript" src="tabletop-master/src/tabletop.js"></script>
-
+        -->
         
+        <!-- load the cached json data variable -->
     	<script type="text/javascript" src="cache/cache.json"></script>
 
         <script type="text/javascript">
@@ -270,6 +272,7 @@
                 l.search = search;
             }
             
+            // a quick and dirty search
             function searchFor(userInput, string) {
                 var matchString = userInput.toLowerCase();
                 if (string.toLowerCase().indexOf(matchString) != -1) {
@@ -283,9 +286,10 @@
     
             // SPREADSHEET PROCESSING
         
+            // if we load initCached() we will use the cached version
             window.onload = function() { initCached() };
 
-            
+            // if we load initTableTop() we will use the live spreadsheet
 
             function initTabletop() {
             
@@ -323,13 +327,8 @@
                 //showInfo(data);
                           }
                           
-            function initCached() {
-            
-            
-
-            
+            function initCached() {            
                 showInfo(data);
-            
             }
           
 
