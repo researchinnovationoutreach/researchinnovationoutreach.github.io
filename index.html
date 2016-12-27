@@ -160,16 +160,23 @@
 				color: #000;
 			}
 			
+			.name-col {
+			    padding-left: 1.5em;
+			}
+			
 			.arrow {
 				font-size: 80%;
 				color: #ccc;
-				text-align: right;
+				text-align: left;
 				position: absolute;
-				bottom: 1em;
-				padding: 0 .2em;
-				right: 0;
-				margin-top: -1em;
+				top: 0;
+				left: 0;
+				padding-top: 1.5em;
 				cursor: pointer;
+				background: linear-gradient(   rgba(0, 0, 0, 0)   ,   rgba(0, 0, 0, .01)   );
+				width: 2em;
+				height: calc(100% - 1.5em);
+
 			}
 			
 			#searchterm {
@@ -230,10 +237,10 @@
                 var nextElement = sender.nextSibling;
                 if ( nextElement.style.display == 'block' ) {
                     nextElement.style.display = 'none';
-                    sender.innerHTML = 'more ▼';
+                    sender.innerHTML = '▶';
                 } else {
                     nextElement.style.display = 'block';
-                    sender.innerHTML = 'less ▲';
+                    sender.innerHTML = '▼';
                     }
             }
     
@@ -430,10 +437,10 @@
                 if ( display ) {        
                     results +=	'<tr>'
                     results += '<td class="categories">' + categories +	 '</td>'
-                    results += '<td><span class="name">' + name + '</span>';
+                    results += '<td class="name-col"><span class="name">' + name + '</span>';
                     results += '<div class="accordion">';
                     results += '<div class="org">' + org + '</div>';
-                    results += '<div class="arrow" onClick="toggle(this);">more ▼</div>'
+                    results += '<div class="arrow" onClick="toggle(this);">▶</div>'
                     results += '<div class="description">' + fee + data[i].Description.replace(/(?:\r\n|\r|\n)/g, '<br />') + '</div>';
                     results += '</div></td>';
                     results += '<td class="date">' + data[i].Date + '</td>';
