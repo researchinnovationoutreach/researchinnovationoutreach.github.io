@@ -11,7 +11,7 @@
 				font-family: 'Verdana'; 
 				font-size: 12px;
 				margin: 0;
-				line-height: 130%;
+				line-height: 140%;
 				}
 				
 			h1 {
@@ -51,6 +51,8 @@
 				text-transform: uppercase;
 				letter-spacing: .05em;
 				font-weight: bold;
+vertical-align: text-bottom;
+
 			}
 			
 			.cancel {
@@ -59,11 +61,16 @@
 			    display: inline-block;
 			    padding: .25em;
 			    font-size: .7em;
+			    width: .85em;
 			    line-height: 1em;
 			    letter-spacing: 0;
-			    margin-left: .25em;
-			    vertical-align: middle;
-			    
+			    margin-left: .5em;
+vertical-align: text-top;
+
+			}
+			
+			.cancel:hover {
+			    background: #999;
 			}
 		
 			.date { 
@@ -74,9 +81,7 @@
 				}
 				
 			.org { 
-				color: #999; 
-				margin-bottom: 1em; 
-				margin-top: .5em; 
+			        margin: 0 0 1em 0;
 				}
 				
 			.fee {
@@ -132,6 +137,7 @@
 				
 			.description {
 				display: none;
+				overflow: hidden;
 			}
 			
 			#categories {
@@ -161,23 +167,30 @@
 			}
 			
 			.name-col {
-			    padding-left: 1.5em;
 			}
 			
 			.arrow {
-				font-size: 80%;
-				color: #ccc;
+				color: #999;
 				text-align: left;
-				position: absolute;
-				top: 0;
-				left: 0;
-				padding-top: 1.5em;
 				cursor: pointer;
-				background: linear-gradient(   rgba(0, 0, 0, 0)   ,   rgba(0, 0, 0, .01)   );
-				width: 2em;
 				height: calc(100% - 1.5em);
-
 			}
+			
+			/*
+			.arrow {
+			    display: block;
+			    position: absolute;
+			    width: 100%;
+			    background: linear-gradient(rgba(250, 250, 250, 0), rgba(200, 200, 200, 100));
+			    bottom: 0em;
+			    height: 5em;
+			    vertical-align: bottom;
+			}
+			*/
+			
+			.arrow:hover {
+			    color: #000;
+			}  
 			
 			#searchterm {
 			    margin-top: 1em;
@@ -237,10 +250,10 @@
                 var nextElement = sender.nextSibling;
                 if ( nextElement.style.display == 'block' ) {
                     nextElement.style.display = 'none';
-                    sender.innerHTML = '▶';
+                    sender.innerHTML = 'Additional Information ▶';
                 } else {
                     nextElement.style.display = 'block';
-                    sender.innerHTML = '▼';
+                    sender.innerHTML = 'Additional Information ▼';
                     }
             }
     
@@ -440,8 +453,8 @@
                     results += '<td class="name-col"><span class="name">' + name + '</span>';
                     results += '<div class="accordion">';
                     results += '<div class="org">' + org + '</div>';
-                    results += '<div class="arrow" onClick="toggle(this);">▶</div>'
-                    results += '<div class="description">' + fee + data[i].Description.replace(/(?:\r\n|\r|\n)/g, '<br />') + '</div>';
+                    results += '<a class="arrow" onClick="toggle(this);">Additional Information ▶</a>'
+                    results += '<div class="description">' + data[i].Description.replace(/(?:\r\n|\r|\n)/g, '<br />') + '</div>';
                     results += '</div></td>';
                     results += '<td class="date">' + data[i].Date + '</td>';
                     results += '<td class="location">' + data[i].Location + '</td>';
