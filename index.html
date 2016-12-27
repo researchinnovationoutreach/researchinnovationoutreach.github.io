@@ -52,6 +52,18 @@
 				letter-spacing: .05em;
 				font-weight: bold;
 			}
+			
+			.cancel {
+			    color: #fff;
+			    background: #ccc;
+			    display: inline-block;
+			    padding: .25em;
+			    font-size: .7em;
+			    line-height: 1em;
+			    letter-spacing: 0;
+			    margin-left: .25em;
+			    
+			}
 		
 			.date { 
 				}
@@ -66,12 +78,17 @@
 				margin-top: .5em; 
 				}
 				
+			.fee {
+			    font-weight: bold;
+			}
+				
 			.more-info {
 				margin-top: .5em;
 			}
 
             table {
 				border-collapse: collapse;
+				width: 100%;
             }
 			td, th {
 				vertical-align: top;
@@ -105,6 +122,7 @@
 				text-transform: uppercase;
 				letter-spacing: .05em;
 				display: block;
+				width: 15em;
 			}
 			
 			a.category:hover {
@@ -171,6 +189,9 @@
   
         <!-- tabletop converts a google sheet to javascript data -->
     	<script type="text/javascript" src="tabletop-master/src/tabletop.js"></script>
+
+        
+    	<script type="text/javascript" src="cache/cache.json"></script>
 
         <script type="text/javascript">
         
@@ -262,12 +283,14 @@
     
             // SPREADSHEET PROCESSING
         
-            window.onload = function() { init() };
+            window.onload = function() { initCached() };
 
-            var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1XVO1smiI3iOoLJt1nPkmnxqWb2Zi4okiDTtghdBfUcQ/pubhtml';
+            
 
-            function init() {
-                
+            function initTabletop() {
+            
+            
+                var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1XVO1smiI3iOoLJt1nPkmnxqWb2Zi4okiDTtghdBfUcQ/pubhtml';    
                 // get orderby and reverse queries for table ordering
                 var orderby = getQueryVariable('orderby');
                 if (! orderby) {
@@ -281,16 +304,37 @@
                     reverse = true;
                 }
 
+
+                var loc = window.location.pathname;
+                var dir = loc.substring(0, loc.lastIndexOf('/'));
+
                 // query the spreadsheet, and call showInfo() on callback
+                
                 Tabletop.init( { key: public_spreadsheet_url,
                                  callback: showInfo,
                                  simpleSheet: true,
                                  orderby: orderby,
-                                 reverse: reverse } );
-          }
+                                 reverse: reverse ,
+                                 proxy: dir,
+                                 } );
+               
+                
+                //var data = JSON.parse(rawdata);
+                //showInfo(data);
+                          }
+                          
+            function initCached() {
+            
+            
 
+            
+                showInfo(data);
+            
+            }
+          
 
           function showInfo(data) {
+                    
             // this is where the magic happens
             
             // data comes through as a simple array since simpleSheet is turned on
@@ -302,10 +346,10 @@
             // set the subtitle
             if (categoryQuery) {
                 categoryQuery = decode(categoryQuery);
-                document.getElementById("subtitle").innerHTML = categoryQuery;
+                document.getElementById("subtitle").innerHTML = categoryQuery + ' <a href="?" class="cancel">×</a>';
             } else if (searchQuery) {
                 searchQuery = decode(searchQuery);
-                document.getElementById("subtitle").innerHTML = 'Results for "' + searchQuery + '"';
+                document.getElementById("subtitle").innerHTML = 'Results for "' + searchQuery + '" <a href="?" class="cancel">×</a>';
                 document.getElementById("searchterm").value = searchQuery;
             } else {
                 document.getElementById("subtitle").innerHTML = 'All Entries';
@@ -338,6 +382,13 @@
                     
                 // get the org
                 var org = data[i].Organization;
+                
+                if ( data[i]["Fee/Free and/or Stipend"] ) {
+                    var fee = '<div class="fee">' + data[i]["Fee/Free and/or Stipend"] + "</div>";
+                } else {
+                    var fee = '';
+                }
+
             
                 // process the categories
                 // the categories are stored as a comma delimited list
@@ -357,7 +408,8 @@
                 var categories = ' ';
                 for (ci = 0; ci < categoryList.length; ci++) {
                     if (categoryList[ci]) {
-                        categories += '<a href="?category=' + encodeURIComponent(categoryList[ci]) + '" class="category">' + categoryList[ci] + '</a> ';
+                                        
+                        categories += '<a href="?category=' + encode(categoryList[ci]) + '" class="category">' + categoryList[ci] + '</a> ';
                         }
                     if ( categoryList[ci] && allCategories.indexOf(categoryList[ci]) == -1 ) {
                         allCategories.push(categoryList[ci]);
@@ -383,10 +435,11 @@
                     results += '<div class="accordion">';
                     results += '<div class="org">' + org + '</div>';
                     results += '<div class="arrow" onClick="toggle(this);">more ▼</div>'
-                    results += '<div class="description">' + data[i].Description + '</div>';
+                    results += '<div class="description">' + fee + data[i].Description.replace(/(?:\r\n|\r|\n)/g, '<br />') + '</div>';
                     results += '</div></td>';
                     results += '<td class="date">' + data[i].Date + '</td>';
                     results += '<td class="location">' + data[i].Location + '</td>';
+                    
                     results +=	'</tr>';
                 }
             }
@@ -407,6 +460,9 @@
 
           /*document.write("The published spreadsheet is located at <a target='_new' href='" + public_spreadsheet_url + "'>" + public_spreadsheet_url + "</a>");		*/
         </script>
+        
+        
+        
 	</head>
 	
 	<!-- because everything happens in javascript our body is painfully simple -->
