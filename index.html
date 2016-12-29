@@ -55,6 +55,14 @@ vertical-align: text-bottom;
 
 			}
 			
+			.result-count {
+			    font-weight: normal;
+			    text-transform: none;
+			    letter-spacing: 0;
+			    display: block;
+			    margin-top: 1em;
+			}
+			
 			.cancel {
 			    color: #fff;
 			    background: #ccc;
@@ -240,7 +248,7 @@ vertical-align: text-top;
 
             // convert back from URL variable to plain text
             function decode(s) {
-                s = s.replace('_', ' ');
+                s = s.replace('_', ' ').replace('+', ' ');
             return s;
             }
         
@@ -362,24 +370,13 @@ vertical-align: text-top;
             var categoryQuery = getQueryVariable('category');
             var searchQuery = getQueryVariable('search');
             
-            // set the subtitle
-            if (categoryQuery) {
-                categoryQuery = decode(categoryQuery);
-                document.getElementById("subtitle").innerHTML = categoryQuery + ' <a href="?" class="cancel">×</a>';
-            } else if (searchQuery) {
-                searchQuery = decode(searchQuery);
-                document.getElementById("subtitle").innerHTML = 'Results for "' + searchQuery + '" <a href="?" class="cancel">×</a>';
-                document.getElementById("searchterm").value = searchQuery;
-            } else {
-                document.getElementById("subtitle").innerHTML = 'All Entries';
-            }
-            
             // set the table headers
             
             /* var results = '<table><tr><th id="categories-header">Categories</th><th id="name-header"><a href="javascript:setParam(\'orderby\', \'Name\');">Name</a></th><th id="date-header"><a href="javascript:setParam(\'orderby\', \'Date\');">Date</th><th id="location-header"><a href="javascript:setParam(\'orderby\', \'Location\');">Location</a></th>'; */
         
             // populate the results variable, which is the HTML code for our table
             var results = '<table><tr><th id="categories-header">Categories</th><th id="name-header">Name</th><th id="date-header">Date</th><th id="location-header">Location</th>';
+            var resultCount = 0;
 
             // keep a running array of all categories, which we will stick at the top of the page
             var allCategories = [];
@@ -447,7 +444,8 @@ vertical-align: text-top;
                 // the time has come
                 // add the HTML of the table row
                 // I've broken this apart for easier edibility and readability
-                if ( display ) {        
+                if ( display ) {
+                    resultCount += 1;
                     results +=	'<tr>'
                     results += '<td class="categories">' + categories +	 '</td>'
                     results += '<td class="name-col"><span class="name">' + name + '</span>';
@@ -474,6 +472,23 @@ vertical-align: text-top;
             }
             // and set that in the HTML
             document.getElementById("categories").innerHTML = categoryRes;
+
+
+            // set the subtitle
+            if (categoryQuery) {
+                categoryQuery = decode(categoryQuery);
+                document.getElementById("subtitle").innerHTML = categoryQuery + ' <a href="?" class="cancel">×</a>';
+            } else if (searchQuery) {
+                searchQuery = decode(searchQuery);
+                document.getElementById("subtitle").innerHTML = 'Results for "' + searchQuery + '" <a href="?" class="cancel">×</a>';
+                document.getElementById("searchterm").value = searchQuery;
+            } else {
+                document.getElementById("subtitle").innerHTML = 'All Entries';
+            }
+            
+            document.getElementById("subtitle").innerHTML += '<span class="result-count">' + resultCount + ' results</span>';
+
+
 
         }
 
