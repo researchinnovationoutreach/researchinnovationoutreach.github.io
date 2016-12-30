@@ -338,7 +338,7 @@ vertical-align: text-bottom;
         
             // show/hide description by toggling display of element following the one that is clicked
             function toggle(sender) {
-            
+                console.log('toggle');
                 var nextElement = sender.nextSibling;
                 if ( nextElement.style.display == 'block' ) {
                     nextElement.style.display = 'none';
