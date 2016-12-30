@@ -31,12 +31,12 @@ jsonfile = open(jsonPath, 'w')
 
 # determine the field names by reading the first line of csv and splitting it by a comma
 # we need the fieldnames in order to read the CSV
-fieldnames = tuple(string.strip(csvfile.readlines()[0]).split(','))
+#fieldnames = tuple(string.strip(csvfile.readlines()[0]).split(','))
 
 # recreate the CSV file, I don't know why
 csvfile = open(os.path.join(base, 'cache.csv'), 'r')
 
-#fieldnames = ('Name', 'Category', 'Organization', 'Date', 'Application Deadline', 'Location', 'Fee/Free and/or Stipend', 'Description', 'URL', 'Graduate Credit', 'Students too?', 'Emily: \xf0\x9f\x91\x8d')
+fieldnames = ('Name', 'Category', 'Organization', 'Date', 'Application Deadline', 'Location', 'Fee/Free and/or Stipend', 'Description', 'URL', 'Graduate Credit', 'Students too?', 'Emily: \xf0\x9f\x91\x8d')
 
 # read the CSV, loop through it, and dump the JSON for each row
 reader = csv.DictReader(csvfile, fieldnames)
