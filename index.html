@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Professional Development Opportunities for Educators</title>
 		
+		<title>Professional Development Opportunities for Educators</title>
+		<meta name="description" content="A searchable database of professional development opportunities for educators.">
 		<meta charset="utf-8" />
 
 		<style type="text/css">
@@ -583,18 +584,22 @@ vertical-align: text-bottom;
             document.getElementById("categories").innerHTML = categoryRes;
 
 
+			var pageTitle = 'Professional Development Opportunities for Educators'
             // set the subtitle
             if (categoryQuery) {
                 document.getElementById("subtitle").innerHTML = categoryQuery + ' <a href="?" class="cancel">×</a>';
+                pageTitle += ': ' + categoryQuery
             } else if (searchQuery) {
                 document.getElementById("subtitle").innerHTML = 'Results for "' + searchQuery + '" <a href="?" class="cancel">×</a>';
                 document.getElementById("searchterm").value = searchQuery;
+                pageTitle += ': ' + 'Results for ' + searchQuery
             } else {
                 document.getElementById("subtitle").innerHTML = 'All Entries';
             }
             
             document.getElementById("subtitle").innerHTML += '<span class="result-count">' + resultCount + ' results</span>';
-
+			
+			document.title = pageTitle;
 
 
         }
@@ -630,6 +635,9 @@ var trackOutboundLink = function(url) {
    });
 }
 </script>
+        
+        
+    
         
 	</head>
 	
