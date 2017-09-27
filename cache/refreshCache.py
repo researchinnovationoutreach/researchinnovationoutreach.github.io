@@ -9,6 +9,10 @@ import json
 import os
 import string
 import subprocess
+import datetime
+
+onlyFutureResults = False
+
 
 # set the URL that we want to update from
 remoteURL = "https://docs.google.com/spreadsheets/d/1XVO1smiI3iOoLJt1nPkmnxqWb2Zi4okiDTtghdBfUcQ/export?gid=0&format=csv"
@@ -36,7 +40,7 @@ jsonfile = open(jsonPath, 'w')
 # recreate the CSV file, I don't know why
 csvfile = open(os.path.join(base, 'cache.csv'), 'r')
 
-fieldnames = ('Name', 'Category', 'Organization', 'Date', 'Application Deadline', 'Location', 'Fee/Free and/or Stipend', 'Description', 'URL', 'Graduate Credit', 'Students too?', 'Emily: \xf0\x9f\x91\x8d')
+fieldnames = ('Name', 'Category', 'Organization', 'Start Date', 'End Date', 'Location', 'Description', 'URL', 'Graduate Credit', 'Emily: \xf0\x9f\x91\x8d')
 
 # read the CSV, loop through it, and dump the JSON for each row
 reader = csv.DictReader(csvfile, fieldnames)
@@ -46,12 +50,30 @@ reader = csv.DictReader(csvfile, fieldnames)
 
 jsonfile.write('var data = [')
 i = 0
+
+now = datetime.datetime.now() - datetime.timedelta(days=1)
+
+skipped = 0
+
 for row in reader:
+    #print row
     # don't write the first row because it is just the table headers
-    if i != 0:
-        json.dump(row, jsonfile)
-        jsonfile.write(',\n')
     i += 1
+    if i == 1:
+        continue
+    try:
+        d = datetime.datetime.strptime(row['Start Date'], "%a, %b %d, %Y")
+        print 'parse correctly', row['Start Date']
+    except:
+        #print 'parse error', row['Start Date'], row['Name']
+        d = now
+    #print d <= now, d, now, row['Name'][:10]
+    if d <= now and onlyFutureResults:
+        skipped += 1
+        continue
+
+    json.dump(row, jsonfile)
+    jsonfile.write(',\n')
 
 jsonfile.write('];')
 
