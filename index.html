@@ -404,43 +404,7 @@ vertical-align: text-bottom;
 
             // if we load initTableTop() we will use the live spreadsheet
 
-            function initTabletop() {
-            
-            
-                var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1XVO1smiI3iOoLJt1nPkmnxqWb2Zi4okiDTtghdBfUcQ/pubhtml';    
-                // get orderby and reverse queries for table ordering
-                var orderby = getQueryVariable('orderby');
-                if (! orderby) {
-                    orderby = 'Name';
-                }
-
-                var reverse = getQueryVariable('reverse');
-                if (! reverse) {
-                    reverse = false;
-                } else {
-                    reverse = true;
-                }
-
-
-                var loc = window.location.pathname;
-                var dir = loc.substring(0, loc.lastIndexOf('/'));
-
-                // query the spreadsheet, and call showInfo() on callback
-                
-                Tabletop.init( { key: public_spreadsheet_url,
-                                 callback: showInfo,
-                                 simpleSheet: true,
-                                 orderby: orderby,
-                                 reverse: reverse ,
-                                 proxy: dir,
-                                 } );
-               
-                
-                //var data = JSON.parse(rawdata);
-                //showInfo(data);
-                          }
-                          
-            function initCached() {            
+            function initCached() {  
                 showInfo(data);
             }
           
@@ -458,9 +422,12 @@ vertical-align: text-bottom;
               return (a < b) ? -1 : (a > b) ? 1 : 0;
             }
 
+            /* no sorting at the moment, just take it from the spreadsheet */
+            /*
             data.sort(function(a, b) {
               return compareStrings(a.Name, b.Name);
             })
+            */
             
             // data comes through as a simple array since simpleSheet is turned on
         
@@ -489,6 +456,7 @@ vertical-align: text-bottom;
             
             // loop through each row in the spreadsheet
             for (i = 0; i < data.length; i++) {
+            
             
                 // we will display this row unless this variable is negated
                 var display = true;

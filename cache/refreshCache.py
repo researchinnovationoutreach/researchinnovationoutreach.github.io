@@ -63,10 +63,10 @@ for row in reader:
         continue
     try:
         d = datetime.datetime.strptime(row['Start Date'], "%a, %b %d, %Y")
-        print 'parse correctly', row['Start Date']
+        #print 'parse correctly', row['Start Date']
     except:
-        #print 'parse error', row['Start Date'], row['Name']
-        d = now
+        print 'parse error', '"'+row['Start Date']+'"', '|', row['Name']
+        d = datetime.datetime.strptime('Mon, Apr 2, 2055', "%a, %b %d, %Y")
     #print d <= now, d, now, row['Name'][:10]
     if d <= now and onlyFutureResults:
         skipped += 1
