@@ -1,10 +1,9 @@
 1. Open up Terminal
-2. Run the following: 
-
-python /path/to/refreshCache.py
-
-(Instead of typing the full path, you can drag the refreshCache.py file onto Terminal)
-
-3. A CSV and JSON file will be generated in the /cache folder.
-4. Write a commit message like "update cache"
-5. Commit and Sync the repository in GitHub
+2. Type “python “ (with trailing space)
+3. Drag refreshCache.py onto Terminal window to get complete path
+4. Hit return
+5. A CSV and JSON file will be generated in the /cache folder.
+6. Write a commit message like "update cache"
+7. Press “Commit to master” (cmd+return)
+8. Sync the repository in GitHub (cmd+s)
+9. Navigate to https://researchinnovationoutreach.github.io in chrome, do a hard refresh if necessary
